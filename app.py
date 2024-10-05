@@ -57,7 +57,7 @@ for message in st.session_state.messages:
 
 def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
     for chunk in chat_completion:
-        if chung.choices[0].delta.content:
+        if chunk.choices[0].delta.content:
             yield chunk.choices[0].delta.content
 
 if prompt := st.chat_input("What do you want to ask?"):
