@@ -9,7 +9,7 @@ st.set_page_config(page_icon="💬", layout="centered", page_title="Groq Chat")
 st.sidebar.title("Groq Super Chat")  # App name
 st.sidebar.caption("App created by AI")
 # Sidebar input for API key
-api_key = st.sidebar.text_input("Enter your API key abd press Enter", type="password")
+api_key = st.sidebar.text_input("Enter your API key and press Enter", type="password")
 
 
 # Sidebar button to start a new chat
