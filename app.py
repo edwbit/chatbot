@@ -63,7 +63,7 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
 if prompt := st.chat_input("What do you want to ask?"):
     st.session_state.messages.append({"role":"user", "content": prompt})
 
-    with st.chat_message("user", avatat='👨‍💻'):
+    with st.chat_message("user", avatar='👨‍💻'):
         st.markdown(prompt)
 
     try:
