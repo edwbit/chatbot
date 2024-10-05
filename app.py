@@ -11,6 +11,7 @@ st.sidebar.caption("App created by AI")
 
 # Input for the API key
 api_key = st.sidebar.text_input("Enter your API key", type="password")
+st.write(f"API Key Length: {len(api_key)}")
 
 # Initialize the Groq client only if the API key is provided
 client = None
