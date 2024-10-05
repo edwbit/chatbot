@@ -48,3 +48,9 @@ max_tokens = st.slider(
     step =512,
     help=f"Adjust he maximum number of tokens(words) for the model's response. Max for selected model: {max_tokens_range}"
 )
+
+#display chat messages from history
+for message in st.session_state.message:
+    avatar= '🤖' if message["role"] == "assistant" else '👨‍💻'
+    with st.chat_message(message["role"]), avatar=avatar:
+        st.markdown(message["content"])
