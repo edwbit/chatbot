@@ -69,6 +69,7 @@ st.markdown("""
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
+            display: none;
             margin-bottom: 0px;  /* Remove any extra space */
         }
     </style>
