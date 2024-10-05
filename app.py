@@ -12,6 +12,9 @@ st.sidebar.caption("App created by AI")
 # Input for the API key
 api_key = st.sidebar.text_input("Enter your API key", type="password")
 
+# Initialize the Groq client only if the API key is provided
+client = None
+
 # Check if the API key is provided
 if st.sidebar.button("Submit"):  # Assuming you have a submit button
     if not api_key:
@@ -19,16 +22,11 @@ if st.sidebar.button("Submit"):  # Assuming you have a submit button
     else:
         # Proceed with using the API key
         st.success("API key accepted!")  # You can also add logic to use the API key here
-
+        client = Groq(api_key=api_key)  # Initialize the Groq client
 
 # Sidebar button to start a new chat
 if st.sidebar.button("New Chat"):
     st.session_state.messages = []  # Clear the chat history
-
-# Initialize the Groq client with the provided API key
-client = Groq(
-    api_key=api_key
-)
 
 st.subheader("Super Chat", divider="rainbow", anchor="false")
 
@@ -110,26 +108,29 @@ if prompt := st.chat_input("What do you want to ask?"):
     with st.chat_message("user", avatar='🤠'):
         st.markdown(prompt)
 
-    try:
-        chat_completion = client.chat.completions.create(
-            model=model_option,
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            max_tokens=max_tokens,
-            stream=True
-        )
-        # Use the generator function with st.write stream
-        with st.chat_message("assistant", avatar="✨"):
-            chat_responses_generator = generate_chat_responses(chat_completion)
-            full_response = st.write_stream(chat_responses_generator)
-    except Exception as e:
-        st.error(e, icon="🚨")
-    
-    # Append the full response to session_state.messages
-    if isinstance(full_response, str):
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
+    if client:  # Only proceed if the client is initialized
+        try:
+            chat_completion = client.chat.completions.create(
+                model=model_option,
+                messages=[
+                    {"role": m["role"], "content": m["content"]}
+                    for m in st.session_state.messages
+                ],
+                max_tokens=max_tokens,
+                stream=True
+            )
+            # Use the generator function with st.write stream
+            with st.chat_message("assistant", avatar="✨"):
+                chat_responses_generator = generate_chat_responses(chat_completion)
+                full_response = st.write_stream(chat_responses_generator)
+
+            # Append the full response to session_state.messages
+            if isinstance(full_response, str):
+                st.session_state.messages.append({"role": "assistant", "content": full_response})
+            else:
+                combined_response = "\n".join(str(item) for item in full_response)
+                st.session_state.messages.append({"role": "assistant", "content": combined_response})
+        except Exception as e:
+            st.error(f"An error occurred while fetching the response: {str(e)}", icon="🚨")
     else:
-        combined_response = "\n".join(str(item) for item in full_response)
-        st.session_state.messages.append({"role": "assistant", "content": combined_response})
+        st.error("Please enter a valid API key to use the chat feature.")
