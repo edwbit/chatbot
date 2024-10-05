@@ -46,6 +46,5 @@ max_tokens = st.slider(
     min_value=512,
     max_value = max_tokens_range,
     step =512,
-    help=f"Adjust he maximum number of tokens(words) for the model's response.
-    Max for selected model: {max_tokens_range}"
+    help=f"Adjust he maximum number of tokens(words) for the model's response. Max for selected model: {max_tokens_range}"
 )
