@@ -21,11 +21,10 @@ if st.sidebar.button("Submit"):  # Assuming you have a submit button
         st.error("You must enter your API key!")  # Show error if no key is provided
     else:
         # Proceed with using the API key
-        st.success("API key accepted!")  # You can also add logic to use the API key here
         try:
             client = Groq(api_key=api_key)  # Initialize the Groq client
-            # Optional: You could add a test call to validate the key
             st.session_state.client_initialized = True
+            st.success("API key accepted!")  # Show success message
         except Exception as e:
             st.error(f"Failed to initialize the Groq client: {str(e)}")
             st.session_state.client_initialized = False
