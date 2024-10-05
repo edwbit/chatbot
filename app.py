@@ -11,6 +11,19 @@ st.sidebar.title("Super Chat App")  # App name
 # Sidebar input for API key
 api_key = st.sidebar.text_input("Enter your API key", type="password", value=st.secrets.get("GROQ_API_KEY", ""))
 
+st.markdown("""
+    <style>
+    .stSlider > div[data-baseweb="slider"] > div {
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        border-radius: 10px;
+        height: 8px;
+    }
+    .stSlider > div[data-baseweb="slider"] > div > div {
+        background-color: white !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 # Sidebar button to start a new chat
 if st.sidebar.button("New Chat"):
     st.session_state.messages = []  # Clear the chat history
