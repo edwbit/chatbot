@@ -94,7 +94,6 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
             yield chunk.choices[0].delta.content
 
 # Handle new chat input
-# Handle new chat input
 if prompt := st.chat_input("What do you want to ask?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -111,26 +110,16 @@ if prompt := st.chat_input("What do you want to ask?"):
             max_tokens=max_tokens,
             stream=True
         )
-        # Use the generator function with st.write
+        # Use the generator function with st.write stream
         with st.chat_message("assistant", avatar="✨"):
             chat_responses_generator = generate_chat_responses(chat_completion)
-            for response in chat_responses_generator:
-                st.write(response)
+            full_response = st.write_stream(chat_responses_generator)
     except Exception as e:
         st.error(e, icon="🚨")
-
+    
     # Append the full response to session_state.messages
-    try:
-        chat_completion = client.chat.completions.create(
-            model=model_option,
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-            max_tokens=max_tokens,
-            stream=False
-        )
-        full_response = chat_completion.choices[0].message.content
+    if isinstance(full_response, str):
         st.session_state.messages.append({"role": "assistant", "content": full_response})
-    except Exception as e:
-        st.error(e, icon="🚨")
+    else:
+        combined_response = "\n".join(str(item) for item in full_response)
+        st.session_state.messages.append({"role": "assistant", "content": combined_response})
