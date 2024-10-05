@@ -52,5 +52,5 @@ max_tokens = st.slider(
 #display chat messages from history
 for message in st.session_state.message:
     avatar= '🤖' if message["role"] == "assistant" else '👨‍💻'
-    with st.chat_message(message["role"]), avatar=avatar:
+    with st.chat_message(message["role"], avatar=avatar):
         st.markdown(message["content"])
