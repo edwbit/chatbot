@@ -8,8 +8,18 @@ st.set_page_config(page_icon="💬", layout="centered", page_title="Groq Chat")
 # Add Sidebar Menu
 st.sidebar.title("Groq Super Chat")  # App name
 st.sidebar.caption("App created by AI")
-# Sidebar input for API key
+
+# Input for the API key
 api_key = st.sidebar.text_input("Enter your API key", type="password")
+
+# Check if the API key is provided
+if st.sidebar.button("Submit"):  # Assuming you have a submit button
+    if not api_key:
+        st.error("You must enter your API key!")  # Show error if no key is provided
+    else:
+        # Proceed with using the API key
+        st.success("API key accepted!")  # You can also add logic to use the API key here
+
 
 # Sidebar button to start a new chat
 if st.sidebar.button("New Chat"):
