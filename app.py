@@ -80,7 +80,7 @@ if prompt := st.chat_input("What do you want to ask?"):
             stream = True
         )
         #use the generator function with st.write stream
-        with st.chat_mesage("assistant", avatar="🤖"):
+        with st.chat_message("assistant", avatar="🤖"):
             chat_responses_generator = generate_chat_responses(chat_completion)
             full_response = st.write_stream(chat_responses_generator)
     except Exception as e:
