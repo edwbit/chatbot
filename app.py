@@ -79,3 +79,23 @@ if prompt := st.chat_input("What do you want to ask?"):
             max_tokens = max_tokens,
             stream = True
         )
+        #use the generator function with st.write stream
+        with st.chat_mesage("assistant", avatar="🤖"):
+            chat_responses_generator = generate_chat_responses(chat_completion)
+            full_response = st.write_stream(chat_response_generator)
+    except Exception as e:
+        st.error(e, icon="🚨")
+    
+    #append the full response to session_state_messages
+    if isinstance(full_response, str):
+        st.session_state.messages.append(
+            {"role": "assistant", "content": full_response}
+        )
+    else:
+        combined_response = "\n".join(str(item) for item in full_response)
+        st.session_state.messages.append(
+            {"role":"assistant", "content": combine_response}
+        )
+
+
+
