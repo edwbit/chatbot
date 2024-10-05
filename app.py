@@ -61,7 +61,7 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
             yield chunk.choices[0].delta.content
 
 if prompt := st.chat_input("What do you want to ask?"):
-    st.session_state.message.append({"role":"user", "content": prompt})
+    st.session_state.messages.append({"role":"user", "content": prompt})
 
     with st.chat_messages("user", avatat='👨‍💻'):
         st.markdown(prompt)
