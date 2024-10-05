@@ -22,7 +22,13 @@ if st.sidebar.button("Submit"):  # Assuming you have a submit button
     else:
         # Proceed with using the API key
         st.success("API key accepted!")  # You can also add logic to use the API key here
-        client = Groq(api_key=api_key)  # Initialize the Groq client
+        try:
+            client = Groq(api_key=api_key)  # Initialize the Groq client
+            # Optional: You could add a test call to validate the key
+            st.session_state.client_initialized = True
+        except Exception as e:
+            st.error(f"Failed to initialize the Groq client: {str(e)}")
+            st.session_state.client_initialized = False
 
 # Sidebar button to start a new chat
 if st.sidebar.button("New Chat"):
