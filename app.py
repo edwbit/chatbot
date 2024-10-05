@@ -87,13 +87,14 @@ else:
     # Placeholder when there are no messages
     st.write("No chat history yet. Start a conversation by typing a message.")
 
-# Function to generate chat responses
-def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
+# Function to generate chat responses with sources
+def generate_chat_responses_with_sources(chat_completion) -> Generator[str, None, None]:
     for chunk in chat_completion:
-        if chunk.choices[0].delta.content:
-            yield chunk.choices[0].delta.content
+        content = chunk.choices[0].delta.content if chunk.choices[0].delta.content else ""
+        source = chunk.choices[0].delta.source if 'source' in chunk.choices[0].delta else None
+        yield {"content": content, "source": source}
 
-# Handle new chat input
+# Handle new chat input with source linking
 if prompt := st.chat_input("What do you want to ask?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
 
@@ -110,16 +111,18 @@ if prompt := st.chat_input("What do you want to ask?"):
             max_tokens=max_tokens,
             stream=True
         )
+
         # Use the generator function with st.write stream
         with st.chat_message("assistant", avatar="✨"):
-            chat_responses_generator = generate_chat_responses(chat_completion)
-            full_response = st.write_stream(chat_responses_generator)
+            chat_responses_generator = generate_chat_responses_with_sources(chat_completion)
+            full_response = ""
+            for response_chunk in chat_responses_generator:
+                st.markdown(response_chunk["content"])
+                if response_chunk["source"]:
+                    st.markdown(f"**Source:** [{response_chunk['source']}]({response_chunk['source']})")
+                full_response += response_chunk["content"]
     except Exception as e:
         st.error(e, icon="🚨")
-    
+
     # Append the full response to session_state.messages
-    if isinstance(full_response, str):
-        st.session_state.messages.append({"role": "assistant", "content": full_response})
-    else:
-        combined_response = "\n".join(str(item) for item in full_response)
-        st.session_state.messages.append({"role": "assistant", "content": combined_response})
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
