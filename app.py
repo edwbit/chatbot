@@ -95,7 +95,7 @@ def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
 
 # Handle new chat input
 if prompt := st.chat_input("What do you want to ask?"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
+    st.session_state.messages.append({"role": "user", "content": f"{prompt} \nProvide links to source if you can"})
 
     with st.chat_message("user", avatar='🤠'):
         st.markdown(prompt)
