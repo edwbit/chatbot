@@ -50,7 +50,32 @@ max_tokens = st.slider(
 )
 
 #display chat messages from history
-for message in st.session_state.message:
+for message in st.session_state.messages:
     avatar= '🤖' if message["role"] == "assistant" else '👨‍💻'
     with st.chat_message(message["role"], avatar=avatar):
         st.markdown(message["content"])
+
+def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
+    for chunk in chat_completion:
+        if chung.choices[0].delta.content:
+            yield chunk.choices[0].delta.content
+
+if prompt := st.chat_input("What do you want to ask?"):
+    st.session_state.message.append({"role":"user", "content": prompt})
+
+    with st.chat_messages("user", avatat='👨‍💻'):
+        st.markdown(prompt)
+
+    try:
+        chat_completion = client.chat.completions.create(
+            model=model_option,
+            messages=[
+                {
+                "role":m["role"],
+                "content": m["content"],
+                }
+                for m in st.session_state.message
+            ],
+            max_tokens = max_tokens,
+            stream = True
+        )
