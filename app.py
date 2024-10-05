@@ -61,25 +61,30 @@ max_tokens = st.slider(
 )
 
 # Custom CSS for the scrollable chat history
-st.markdown("""
-    <style>
-        .chat-container {
-            max-height: 400px;
-            overflow-y: scroll;
-            border: 1px solid #ccc;
-            padding: 10px;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+if st.session_state.messages:
+    # Custom CSS for the scrollable chat history
+    st.markdown("""
+        <style>
+            .chat-container {
+                max-height: 400px;
+                overflow-y: scroll;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+        </style>
+        """, unsafe_allow_html=True)
 
-# Display chat messages from history in a scrollable container
-with st.container():
+    # Display chat messages from history in a scrollable container
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
     for message in st.session_state.messages:
         avatar = '✨' if message["role"] == "assistant" else '🤠'
         with st.chat_message(message["role"], avatar=avatar):
             st.markdown(message["content"])
     st.markdown('</div>', unsafe_allow_html=True)
+
+else:
+    # Placeholder when there are no messages
+    st.write("No chat history yet. Start a conversation by typing a message.")
 
 # Function to generate chat responses
 def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
