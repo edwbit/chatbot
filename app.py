@@ -5,6 +5,8 @@ from groq import Groq
 # Set up the page configuration
 st.set_page_config(page_icon="🚀", layout="centered", page_title="Groq Super Chat")
 
+st.image("https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg")
+st.caption("[Powered by Groq for fast inference.](https://groq.com)")
 # Add Sidebar Menu
 st.sidebar.title("Groq Super Chat")  # App name
 st.sidebar.caption("App created by AI")
