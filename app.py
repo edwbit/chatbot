@@ -5,6 +5,8 @@ from groq import Groq
 # Set up the page configuration
 st.set_page_config(page_icon="🚀", layout="centered", page_title="Groq Super Chat")
 
+# Add Sidebar Menu
+st.sidebar.title("Groq Super Chat")  # App name
 #add groq logo in the sidebar
 st.sidebar.markdown(
     """
@@ -18,11 +20,6 @@ st.sidebar.markdown(
     """,
     unsafe_allow_html=True
 )
-
-
-# Add Sidebar Menu
-st.sidebar.title("Groq Super Chat")  # App name
-st.sidebar.caption("App created by AI")
 # Sidebar input for API key
 api_key = st.sidebar.text_input("Enter your API key and press Enter", type="password")
 
