@@ -11,6 +11,7 @@ st.sidebar.markdown(
       <img
         src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg"
         alt="Powered by Groq for fast inference."
+        width="50%"
       />
     </a>
     """,
