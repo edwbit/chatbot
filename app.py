@@ -5,36 +5,16 @@ from groq import Groq
 # Set up the page configuration
 st.set_page_config(page_icon="🚀", layout="centered", page_title="Groq Super Chat")
 
-# #add groq logo in the sidebar
-# st.sidebar.markdown(
-#     """
-#     <a href="https://groq.com" target="_blank" rel="noopener noreferrer">
-#       <img
-#         src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg"
-#         alt="Powered by Groq for fast inference."
-#         width="20%"
-#       />
-#     </a>
-#     """,
-#     unsafe_allow_html=True
-# )
-
-
 # Add Sidebar Menu
 st.sidebar.title("Groq Super Chat")  # App name
 st.sidebar.caption("App created by AI")
-# Sidebar input for API key
 api_key = st.sidebar.text_input("Enter your API key and press Enter", type="password")
 
-
-# Sidebar button to start a new chat
 if st.sidebar.button("New Chat"):
     st.session_state.messages = []  # Clear the chat history
 
 # Initialize the Groq client with the provided API key
-client = Groq(
-    api_key=api_key
-)
+client = Groq(api_key=api_key)
 
 st.subheader("Super Chat", divider="rainbow", anchor="false")
 
@@ -67,7 +47,6 @@ if st.session_state.selected_model != model_option:
 
 max_tokens_range = models[model_option]["tokens"]
 
-# Adjust max_tokens slider dynamically based on the selected model
 max_tokens = st.slider(
     "Max Tokens:",
     min_value=1024,
@@ -85,10 +64,27 @@ st.markdown("""
             overflow-y: auto;
             border: 1px solid #ccc;
             padding: 10px;
-            display: none;
-            margin-bottom: 0px;  /* Remove any extra space */
+            margin-bottom: 0px;
         }
     </style>
+    """, unsafe_allow_html=True)
+
+# Add JavaScript to scroll to the bottom of the chat container
+st.markdown("""
+    <script>
+        function scrollToBottom() {
+            var chatContainer = document.querySelector('.chat-container');
+            if (chatContainer) {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+        // Scroll to bottom on load
+        window.onload = scrollToBottom;
+        // Scroll to bottom when a new message is added
+        document.addEventListener('DOMNodeInserted', function(event) {
+            scrollToBottom();
+        });
+    </script>
     """, unsafe_allow_html=True)
 
 # Display chat messages from history in a scrollable container if there are messages
@@ -100,7 +96,6 @@ if st.session_state.messages:
             st.markdown(message["content"])
     st.markdown('</div>', unsafe_allow_html=True)
 else:
-    # Placeholder when there are no messages
     st.write("No chat history yet. Start a conversation by typing a message.")
 
 # Function to generate chat responses
@@ -126,14 +121,12 @@ if prompt := st.chat_input("What do you want to ask?"):
             max_tokens=max_tokens,
             stream=True
         )
-        # Use the generator function with st.write stream
         with st.chat_message("assistant", avatar="✨"):
             chat_responses_generator = generate_chat_responses(chat_completion)
             full_response = st.write_stream(chat_responses_generator)
     except Exception as e:
         st.error(e, icon="🚨")
     
-    # Append the full response to session_state.messages
     if isinstance(full_response, str):
         st.session_state.messages.append({"role": "assistant", "content": full_response})
     else:
