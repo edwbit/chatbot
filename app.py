@@ -56,29 +56,29 @@ max_tokens = st.slider(
     help=f"Adjust the maximum number of tokens (words) for the model's response. Max for selected model: {max_tokens_range}"
 )
 
-# # Custom CSS for the scrollable chat history
-# st.markdown("""
-#     <style>
-#         .chat-container {
-#             max-height: 400px;
-#             overflow-y: auto;
-#             border: 1px solid #ccc;
-#             padding: 10px;
-#             margin-bottom: 0px;
-#         }
-#     </style>
-#     """, unsafe_allow_html=True)
+# Custom CSS for the scrollable chat history
+st.markdown("""
+    <style>
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 0px;
+        }
+    </style>
+    """, unsafe_allow_html=True)
 
-# # Display chat messages from history in a scrollable container if there are messages
-# if st.session_state.messages:
-#     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-#     for message in st.session_state.messages:
-#         avatar = '✨' if message["role"] == "assistant" else '🤠'
-#         with st.chat_message(message["role"], avatar=avatar):
-#             st.markdown(message["content"])
-#     st.markdown('</div>', unsafe_allow_html=True)
-# else:
-#     st.write("No chat history yet. Start a conversation by typing a message.")
+# Display chat messages from history in a scrollable container if there are messages
+if st.session_state.messages:
+    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
+    for message in st.session_state.messages:
+        avatar = '✨' if message["role"] == "assistant" else '🤠'
+        with st.chat_message(message["role"], avatar=avatar):
+            st.markdown(message["content"])
+    st.markdown('</div>', unsafe_allow_html=True)
+else:
+    st.write("No chat history yet. Start a conversation by typing a message.")
 
 # Function to generate chat responses
 def generate_chat_responses(chat_completion) -> Generator[str, None, None]:
