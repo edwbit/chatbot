@@ -57,17 +57,17 @@ max_tokens = st.slider(
 )
 
 # Custom CSS for the scrollable chat history
-st.markdown("""
-    <style>
-        .chat-container {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 0px;
-        }
-    </style>
-    """, unsafe_allow_html=True)
+# st.markdown("""
+#     <style>
+#         .chat-container {
+#             max-height: 400px;
+#             overflow-y: auto;
+#             border: 1px solid #ccc;
+#             padding: 10px;
+#             margin-bottom: 0px;
+#         }
+#     </style>
+#     """, unsafe_allow_html=True)
 
 # Display chat messages from history in a scrollable container if there are messages
 if st.session_state.messages:
