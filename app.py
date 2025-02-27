@@ -28,7 +28,7 @@ if "selected_model" not in st.session_state:
 # Define model details
 models = {
     "deepseek-r1-distill-llama-70b": {"name": "deepseek-r1-distill-llama-70b", "tokens": 32768},
-    "llama-3.3-70b-versatile": {"name": "llama-3.3-70b-versatile", "tokens": 32768},   
+     
 }
 
 # Layout for model selection and max token slider
@@ -46,7 +46,7 @@ if st.session_state.selected_model != model_option:
 
 max_tokens_range = models[model_option]["tokens"]
 
-max_tokens = st.slider(
+max_completion_tokens = st.slider(
     "Max Tokens:",
     min_value=1024,
     max_value=max_tokens_range,
@@ -100,7 +100,12 @@ if prompt := st.chat_input("What do you want to ask?"):
                 for m in st.session_state.messages
             ],
             max_tokens=max_tokens,
-            stream=True
+            temperature=0.6,
+            max_completion_tokens=1024,
+            top_p=0.95,
+            stream=True,
+            reasoning_format="hidden"
+            
         )
         with st.chat_message("assistant", avatar="✨"):
             chat_responses_generator = generate_chat_responses(chat_completion)
