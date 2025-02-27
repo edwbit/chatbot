@@ -101,7 +101,7 @@ if prompt := st.chat_input("What do you want to ask?"):
             ],
             max_tokens=max_tokens,
             temperature=0.6,
-            max_completion_tokens=1024,
+            max_completion_tokens=max_completion_tokens,
             top_p=0.95,
             stream=True,
             reasoning_format="hidden"
