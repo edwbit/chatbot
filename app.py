@@ -28,7 +28,9 @@ if "selected_model" not in st.session_state:
 # Define model details
 models = {
     "deepseek-r1-distill-llama-70b": {"name": "deepseek-r1-distill-llama-70b", "tokens": 16384},
-    "deepseek-r1-distill-qwen-32b": {"name": "deepseek-r1-distill-qwen-32b", "tokens": 16384},    
+    "qwen-qwq-32b": {"name": "qwen-qwq-32b", "tokens": 128000},
+    "meta-llama/llama-4-maverick-17b-128e-instruc": {"name": "meta-llama/llama-4-maverick-17b-128e-instruc", "tokens": 131072},
+    
 }
 
 # Layout for model selection and max token slider
