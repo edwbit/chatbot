@@ -3,7 +3,7 @@ from typing import Generator
 from groq import Groq
 
 # Set up the page configuration
-st.set_page_config(page_icon="🚀", layout="centered", page_title="Groq Super Chat")
+st.set_page_config(page_icon="🚀", layout="centered", page_title="EBB Super Chat")
 
 # Add Sidebar Menu
 st.sidebar.title("Groq Super Chat")  # App name
